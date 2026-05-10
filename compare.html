@@ -18,6 +18,7 @@
 
   <div class="scroll-progress"></div>
 
+  <!-- NAVBAR -->
   <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
     <div class="container">
       <a class="navbar-brand fw-bold fs-3" href="index.html"><i class="bi bi-controller"></i> FORTNITE<span class="text-neon">HUB</span></a>
@@ -50,13 +51,15 @@
       
       <!-- SKIN 1 -->
       <div class="col-md-5">
-        <div class="selector-card h-100 p-4">
+        <div class="selector-card h-100 p-4 position-relative">
           <h3 class="text-neon text-center mb-3">SKIN 1</h3>
           
-          <!-- BOTÓN RANDOM ENCIMA DEL SELECTOR -->
-          <div class="text-center mb-3">
+          <div class="d-flex justify-content-center gap-2 mb-3">
             <button id="randomSkin1Btn" class="btn btn-outline-custom btn-sm">
-              <i class="bi bi-shuffle"></i> SKIN ALEATORIA PARA SKIN 1
+              <i class="bi bi-shuffle"></i> SKIN ALEATORIA
+            </button>
+            <button id="deselectSkin1Btn" class="btn btn-outline-danger btn-sm">
+              <i class="bi bi-x-circle"></i> DESELECCIONAR
             </button>
           </div>
           
@@ -64,29 +67,38 @@
             <option value="">Selecciona una skin...</option>
           </select>
           
-          <div id="skinPreview1" class="text-center">
+          <div id="skinPreview1" class="text-center position-relative">
             <img src="https://placehold.co/300x300/1a1a2e/00f3ff?text=Selecciona+una+skin" alt="Skin 1" class="img-fluid rounded-3" style="max-height: 200px;">
             <p class="mt-2 text-white-50">Selecciona una skin para comparar</p>
+            <!-- Botón favorito estilo landing -->
+            <button id="favBtn1" class="favorite-btn" style="display: none;">
+              <i class="bi bi-heart"></i>
+            </button>
           </div>
         </div>
       </div>
 
-      <!-- VS -->
+      <!-- VS CON ANIMACIÓN ASCII -->
       <div class="col-md-2 text-center d-flex align-items-center justify-content-center">
-        <div class="vs-icon">
+        <div class="vs-icon" id="vsIcon">
           <i class="bi bi-vs"></i>
+        </div>
+        <div id="asciiAnimation" class="ascii-container" style="display: none;">
+          <pre class="ascii-art"></pre>
         </div>
       </div>
 
       <!-- SKIN 2 -->
       <div class="col-md-5">
-        <div class="selector-card h-100 p-4">
+        <div class="selector-card h-100 p-4 position-relative">
           <h3 class="text-neon text-center mb-3">SKIN 2</h3>
           
-          <!-- BOTÓN RANDOM ENCIMA DEL SELECTOR -->
-          <div class="text-center mb-3">
+          <div class="d-flex justify-content-center gap-2 mb-3">
             <button id="randomSkin2Btn" class="btn btn-outline-custom btn-sm">
-              <i class="bi bi-shuffle"></i> SKIN ALEATORIA PARA SKIN 2
+              <i class="bi bi-shuffle"></i> SKIN ALEATORIA
+            </button>
+            <button id="deselectSkin2Btn" class="btn btn-outline-danger btn-sm">
+              <i class="bi bi-x-circle"></i> DESELECCIONAR
             </button>
           </div>
           
@@ -94,9 +106,25 @@
             <option value="">Selecciona una skin...</option>
           </select>
           
-          <div id="skinPreview2" class="text-center">
+          <div id="skinPreview2" class="text-center position-relative">
             <img src="https://placehold.co/300x300/1a1a2e/00f3ff?text=Selecciona+una+skin" alt="Skin 2" class="img-fluid rounded-3" style="max-height: 200px;">
             <p class="mt-2 text-white-50">Selecciona una skin para comparar</p>
+            <!-- Botón favorito estilo landing -->
+            <button id="favBtn2" class="favorite-btn" style="display: none;">
+              <i class="bi bi-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HISTORIAL DE COMPARACIONES -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="history-card p-3">
+          <h4 class="text-neon mb-2"><i class="bi bi-clock-history"></i> HISTORIAL DE COMPARACIONES</h4>
+          <div id="comparisonHistory" class="history-list">
+            <p class="text-white-50 mb-0">Todavía no has comparado ninguna skin.</p>
           </div>
         </div>
       </div>
@@ -111,6 +139,7 @@
             <div class="detail-content">
               <p><strong><i class="bi bi-gem"></i> Rareza:</strong> <span id="detailRarity1">---</span></p>
               <p><strong><i class="bi bi-grid-3x3-gap-fill"></i> Tipo:</strong> <span id="detailType1">---</span></p>
+              <p><strong><i class="bi bi-calendar-event"></i> Temporada:</strong> <span id="detailSeason1">---</span></p>
               <p><strong><i class="bi bi-card-text"></i> Descripción:</strong></p>
               <p class="detail-desc" id="detailDesc1">---</p>
             </div>
@@ -122,6 +151,7 @@
             <div class="detail-content">
               <p><strong><i class="bi bi-gem"></i> Rareza:</strong> <span id="detailRarity2">---</span></p>
               <p><strong><i class="bi bi-grid-3x3-gap-fill"></i> Tipo:</strong> <span id="detailType2">---</span></p>
+              <p><strong><i class="bi bi-calendar-event"></i> Temporada:</strong> <span id="detailSeason2">---</span></p>
               <p><strong><i class="bi bi-card-text"></i> Descripción:</strong></p>
               <p class="detail-desc" id="detailDesc2">---</p>
             </div>
@@ -147,8 +177,26 @@
     </div>
   </div>
 
+  <!-- FOOTER (mismo que en landing) -->
   <footer class="footer pt-5 pb-4 mt-5">
-    <div class="container text-center"><p class="small">&copy; 2025 - <span id="currentYear"></span> Fortnite Hub. Proyecto académico para Diseño Web Avanzado - UDIT.</p></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 text-center text-md-start">
+          <p class="small mb-0">&copy; 2025 - <span id="currentYear"></span> Fortnite Hub. Proyecto académico para Diseño Web Avanzado - UDIT.</p>
+        </div>
+        <div class="col-md-6 text-center text-md-end">
+          <a href="https://x.com/Fortnite_ES" target="_blank" class="me-3"><i class="bi bi-twitter-x"></i></a>
+          <a href="https://www.instagram.com/fortnite/" target="_blank" class="me-3"><i class="bi bi-instagram"></i></a>
+          <a href="https://www.youtube.com/@PlayStation" target="_blank" class="me-3"><i class="bi bi-youtube"></i></a>
+          <a href="https://www.tiktok.com/@fortnite?lang=es" target="_blank"><i class="bi bi-tiktok"></i></a>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-12 text-center">
+          <p class="small text-white-50">Datos proporcionados por <a href="https://dash.fortnite-api.com/" target="_blank">Fortnite-API.com</a></p>
+        </div>
+      </div>
+    </div>
   </footer>
 
   <button id="backToTop" class="btn-back-to-top"><i class="bi bi-arrow-up-short"></i></button>

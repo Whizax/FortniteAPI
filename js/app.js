@@ -25,8 +25,15 @@ let currentSkin2 = null;
 // Favoritos guardados en el navegador
 let favorites = JSON.parse(localStorage.getItem('fortniteFavorites')) || [];
 
+// Historial de comparaciones
+let comparisonHistory = JSON.parse(localStorage.getItem('fortniteHistory')) || [];
+
 function saveFavorites() {
     localStorage.setItem('fortniteFavorites', JSON.stringify(favorites));
+}
+
+function saveHistory() {
+    localStorage.setItem('fortniteHistory', JSON.stringify(comparisonHistory));
 }
 
 // --------------------------------------------------------------
@@ -145,6 +152,120 @@ function createSparkles(x, y) {
         $('body').append(spark);
         setTimeout(() => spark.remove(), 500);
     }
+}
+
+// --------------------------------------------------------------
+// TEMPORADA DE ORIGEN
+// --------------------------------------------------------------
+function getSkinSeason(skin) {
+    if (skin.introduction) {
+        const intro = skin.introduction;
+        if (intro.chapter && intro.season) {
+            return `Capítulo ${intro.chapter}, Temporada ${intro.season}`;
+        }
+        if (intro.text) {
+            return intro.text;
+        }
+    }
+    if (skin.added) {
+        const date = new Date(skin.added);
+        return `Añadido: ${date.toLocaleDateString('es-ES')}`;
+    }
+    return 'Temporada desconocida';
+}
+
+// --------------------------------------------------------------
+// HISTORIAL DE COMPARACIONES
+// --------------------------------------------------------------
+function addToHistory(skin1, skin2) {
+    if (!skin1 || !skin2) return;
+    
+    const historyItem = {
+        id: Date.now(),
+        skin1Name: skin1.name,
+        skin2Name: skin2.name,
+        skin1Id: skin1.id,
+        skin2Id: skin2.id,
+        date: new Date().toLocaleString()
+    };
+    
+    comparisonHistory.unshift(historyItem);
+    if (comparisonHistory.length > 5) comparisonHistory.pop();
+    saveHistory();
+    updateHistoryDisplay();
+}
+
+function updateHistoryDisplay() {
+    const container = $('#comparisonHistory');
+    if (!container.length) return;
+    
+    if (comparisonHistory.length === 0) {
+        container.html('<p class="text-white-50 mb-0">Todavía no has comparado ninguna skin.</p>');
+        return;
+    }
+    
+    let html = '';
+    comparisonHistory.forEach(item => {
+        html += `
+            <div class="history-item" onclick="reloadComparison('${item.skin1Id}', '${item.skin2Id}')">
+                <i class="bi bi-arrow-left-right"></i> ${item.skin1Name} vs ${item.skin2Name}
+                <small class="text-white-50 ms-2">${item.date}</small>
+            </div>
+        `;
+    });
+    container.html(html);
+}
+
+function reloadComparison(skin1Id, skin2Id) {
+    playSound('click');
+    if (skin1Id) $('#skinSelect1').val(skin1Id).trigger('change');
+    if (skin2Id) $('#skinSelect2').val(skin2Id).trigger('change');
+    showToast('Comparación cargada', 'Revisa los detalles', 'select');
+}
+
+// --------------------------------------------------------------
+// ANIMACIÓN ASCII
+// --------------------------------------------------------------
+function initAsciiAnimation() {
+    $('#vsIcon').click(function() {
+        if (!currentSkin1 || !currentSkin2) {
+            showToast('¡Selecciona dos skins!', 'Elige una skin para cada lado', 'click');
+            return;
+        }
+        
+        playSound('select');
+        
+        const asciiFrames = [
+            "⚔️ PELEA ÉPICA ⚔️\n\n" + currentSkin1.name + "  VS  " + currentSkin2.name + "\n\n" +
+            "    ╔═══════════╗\n" +
+            "    ║   FIGHT!  ║\n" +
+            "    ╚═══════════╝",
+            
+            "🔥 " + currentSkin1.name + " lanza un ataque crítico!\n" +
+            "💥 " + currentSkin2.name + " contraataca!\n" +
+            "✨ ¡El combate continúa! ✨",
+            
+            "🏆 ¡VICTORIA ROYALE! 🏆\n\n" +
+            "El ganador es: " + (Math.random() > 0.5 ? currentSkin1.name : currentSkin2.name)
+        ];
+        
+        let frame = 0;
+        const asciiContainer = $('#asciiAnimation');
+        const asciiArt = $('.ascii-art');
+        
+        asciiContainer.show();
+        asciiArt.text(asciiFrames[frame]);
+        
+        const interval = setInterval(() => {
+            frame++;
+            if (frame < asciiFrames.length) {
+                asciiArt.text(asciiFrames[frame]);
+            } else {
+                clearInterval(interval);
+                setTimeout(() => asciiContainer.fadeOut(500), 1500);
+            }
+        }, 1500);
+    });
 }
 
 // --------------------------------------------------------------
@@ -269,12 +390,12 @@ function loadSkinsForCompare() {
                 const skinId = $(this).val();
                 if (skinId) {
                     currentSkin1 = allSkinsList.find(s => s.id === skinId);
-                    updateSkinPreview('skinPreview1', currentSkin1);
+                    updateSkinPreview('skinPreview1', currentSkin1, 'skin1');
                     updateComparisonDetails();
                     playSound('select');
                 } else {
                     currentSkin1 = null;
-                    resetPreview('skinPreview1');
+                    resetPreview('skinPreview1', 'skin1');
                     updateComparisonDetails();
                 }
             });
@@ -283,12 +404,12 @@ function loadSkinsForCompare() {
                 const skinId = $(this).val();
                 if (skinId) {
                     currentSkin2 = allSkinsList.find(s => s.id === skinId);
-                    updateSkinPreview('skinPreview2', currentSkin2);
+                    updateSkinPreview('skinPreview2', currentSkin2, 'skin2');
                     updateComparisonDetails();
                     playSound('select');
                 } else {
                     currentSkin2 = null;
-                    resetPreview('skinPreview2');
+                    resetPreview('skinPreview2', 'skin2');
                     updateComparisonDetails();
                 }
             });
@@ -301,28 +422,74 @@ function loadSkinsForCompare() {
     });
 }
 
-function updateSkinPreview(containerId, skin) {
+// Función para actualizar la preview con el botón corazón
+function updateSkinPreview(containerId, skin, side) {
     if (!skin) return;
     const imgUrl = skin.images?.icon || 'https://placehold.co/400x400/1a1a2e/00f3ff?text=No+Img';
     const rarityClass = getRarityClass(skin.rarity?.value);
     const isFav = isFavorite(skin.id);
     
+    // Actualizar la imagen y nombre
     const html = `
         <img src="${imgUrl}" alt="${escapeHtml(skin.name)}" class="img-fluid rounded-3" style="max-height: 200px;">
         <h5 class="mt-2">${escapeHtml(skin.name)}</h5>
         <span class="rarity-badge ${rarityClass}">${skin.rarity?.displayValue || 'Común'}</span>
-        <button class="favorite-btn-compare mt-2 d-block mx-auto" onclick="toggleFavorite('${skin.id}', '${escapeHtml(skin.name)}', '${imgUrl}', '${skin.rarity?.displayValue || 'Común'}', '${getTypeDisplay(skin.type?.value)}', event)">
-            <i class="bi ${isFav ? 'bi-heart-fill' : 'bi-heart'}"></i> Favorito
-        </button>
     `;
     $(`#${containerId}`).html(html);
+    
+    // Obtener el botón de favorito correspondiente
+    const favBtn = side === 'skin1' ? $('#favBtn1') : $('#favBtn2');
+    
+    // Asegurarse de que el botón está dentro del contenedor
+    if (favBtn.parent().attr('id') !== containerId) {
+        $(`#${containerId}`).append(favBtn);
+    }
+    
+    // Configurar el botón
+    favBtn.data('skin-id', skin.id);
+    favBtn.data('skin-name', skin.name);
+    favBtn.data('skin-image', imgUrl);
+    favBtn.data('skin-rarity', skin.rarity?.displayValue || 'Común');
+    favBtn.data('skin-type', getTypeDisplay(skin.type?.value));
+    
+    favBtn.off('click').on('click', function(e) {
+        e.stopPropagation();
+        const id = $(this).data('skin-id');
+        const name = $(this).data('skin-name');
+        const image = $(this).data('skin-image');
+        const rarity = $(this).data('skin-rarity');
+        const type = $(this).data('skin-type');
+        toggleFavorite(id, name, image, rarity, type, e);
+        // Actualizar icono
+        const isNowFav = isFavorite(id);
+        const icon = $(this).find('i');
+        if (isNowFav) {
+            icon.removeClass('bi-heart').addClass('bi-heart-fill');
+        } else {
+            icon.removeClass('bi-heart-fill').addClass('bi-heart');
+        }
+    });
+    
+    favBtn.show();
+    
+    // Icono inicial
+    const icon = favBtn.find('i');
+    if (isFav) {
+        icon.removeClass('bi-heart').addClass('bi-heart-fill');
+    } else {
+        icon.removeClass('bi-heart-fill').addClass('bi-heart');
+    }
 }
 
-function resetPreview(containerId) {
+// Función para resetear la preview (oculta el botón corazón)
+function resetPreview(containerId, side) {
     $(`#${containerId}`).html(`
         <img src="https://placehold.co/300x300/1a1a2e/00f3ff?text=Selecciona+una+skin" alt="Sin selección" class="img-fluid rounded-3" style="max-height: 200px;">
         <p class="mt-2 text-white-50">Selecciona una skin para comparar</p>
     `);
+    const favBtn = side === 'skin1' ? $('#favBtn1') : $('#favBtn2');
+    $(`#${containerId}`).append(favBtn);
+    favBtn.hide();
 }
 
 function updateComparisonDetails() {
@@ -330,11 +497,13 @@ function updateComparisonDetails() {
         $('#detailName1').text(currentSkin1.name || 'Sin nombre');
         $('#detailRarity1').html(`<span class="rarity-badge ${getRarityClass(currentSkin1.rarity?.value)}">${currentSkin1.rarity?.displayValue || 'Común'}</span>`);
         $('#detailType1').text(getTypeDisplay(currentSkin1.type?.value));
+        $('#detailSeason1').text(getSkinSeason(currentSkin1));
         $('#detailDesc1').text(currentSkin1.description || 'No hay descripción disponible');
     } else {
         $('#detailName1').text('---');
         $('#detailRarity1').text('---');
         $('#detailType1').text('---');
+        $('#detailSeason1').text('---');
         $('#detailDesc1').text('Selecciona una skin para ver sus detalles');
     }
     
@@ -342,16 +511,19 @@ function updateComparisonDetails() {
         $('#detailName2').text(currentSkin2.name || 'Sin nombre');
         $('#detailRarity2').html(`<span class="rarity-badge ${getRarityClass(currentSkin2.rarity?.value)}">${currentSkin2.rarity?.displayValue || 'Común'}</span>`);
         $('#detailType2').text(getTypeDisplay(currentSkin2.type?.value));
+        $('#detailSeason2').text(getSkinSeason(currentSkin2));
         $('#detailDesc2').text(currentSkin2.description || 'No hay descripción disponible');
     } else {
         $('#detailName2').text('---');
         $('#detailRarity2').text('---');
         $('#detailType2').text('---');
+        $('#detailSeason2').text('---');
         $('#detailDesc2').text('Selecciona una skin para ver sus detalles');
     }
     
     if (currentSkin1 && currentSkin2) {
         $('.vs-icon').addClass('vs-active');
+        addToHistory(currentSkin1, currentSkin2);
     } else {
         $('.vs-icon').removeClass('vs-active');
     }
@@ -380,6 +552,20 @@ function initRandomForSkin2() {
         const randomSkin = allSkinsList[Math.floor(Math.random() * allSkinsList.length)];
         $('#skinSelect2').val(randomSkin.id).trigger('change');
         showToast('Skin aleatoria cargada', randomSkin.name, 'select');
+    });
+}
+
+function initDeselectButtons() {
+    $('#deselectSkin1Btn').click(function() {
+        playSound('click');
+        $('#skinSelect1').val('').trigger('change');
+        showToast('Skin 1 deseleccionada', 'Puedes elegir otra', 'click');
+    });
+    
+    $('#deselectSkin2Btn').click(function() {
+        playSound('click');
+        $('#skinSelect2').val('').trigger('change');
+        showToast('Skin 2 deseleccionada', 'Puedes elegir otra', 'click');
     });
 }
 
@@ -438,7 +624,7 @@ function toggleTheme() {
 }
 
 // --------------------------------------------------------------
-// FILTROS DE LA TIENDA (desplegables)
+// FILTROS DE LA TIENDA
 // --------------------------------------------------------------
 function initFilterToggles() {
     $('.btn-filter-toggle').click(function() {
@@ -452,7 +638,7 @@ function initFilterToggles() {
 }
 
 // --------------------------------------------------------------
-// MODALES (ventanas emergentes)
+// MODALES
 // --------------------------------------------------------------
 function showSkinModal(skin) {
     try {
@@ -477,7 +663,7 @@ function showNewsModal(title, body, imageUrl) {
 }
 
 // --------------------------------------------------------------
-// PÁGINA DE INICIO (LANDING)
+// PÁGINA DE INICIO
 // --------------------------------------------------------------
 function loadStats() {
     $('#skinsCount, #emotesCount, #totalCount').text('...');
@@ -538,7 +724,7 @@ function loadNews() {
                 $('#newsContainer').html('<div class="col-12 text-center"><div class="alert alert-info">No hay noticias disponibles</div></div>');
             }
         },
-                error: () => $('#newsContainer').html('<div class="col-12 text-center"><div class="alert alert-danger">Error al cargar noticias</div></div>')
+        error: () => $('#newsContainer').html('<div class="col-12 text-center"><div class="alert alert-danger">Error al cargar noticias</div></div>')
     });
 }
 
@@ -625,7 +811,7 @@ function displayTrending(items) {
 }
 
 // --------------------------------------------------------------
-// TIENDA (FILTROS, BÚSQUEDA, ISOTOPE)
+// TIENDA
 // --------------------------------------------------------------
 function loadShopCosmetics() {
     const loadingMsg = getRandomLoadingMessage();
@@ -806,8 +992,6 @@ const timelineData = [
     { titulo: "CAPÍTULO 4", años: "2022-2023", tag: "🏰 MEDIEVAL", desc: "Castillos y Geralt de Rivia.", lugares: ["Castillo Slone", "El Llamativo", "Zona Medieval"], img: "https://www.gamerevolution.com/wp-content/uploads/sites/2/2023/03/Fortnite-Chapter-4-Season-2-Map-Changes-2.jpg?w=1024" },
     { titulo: "CAPÍTULO 5", años: "2023-2024", tag: "⛰️ SUBTERRÁNEO", desc: "Peter Griffin y el Doctor Doom.", lugares: ["Doomstadt", "Castillo Doom", "Pandora"], img: "https://static.wikia.nocookie.net/fortnite/images/2/21/Helios_%28Update_v28.00%29_-_Island_-_Fortnite.png/revision/latest?cb=20231206212959" },
     { titulo: "CAPÍTULO 6", años: "2024-2025", tag: "👹 DEMONIOS", desc: "Armas elementales y espíritus ancestrales.", lugares: ["Aldea Espiritual", "Dominio Élite", "Templo Elemental"], img: "https://static.wikia.nocookie.net/fortnite/images/d/d3/Oninoshima_%28Update_v33.00%29_-_Island_-_Fortnite.png/revision/latest?cb=20241201072954" }
-    
-    
 ];
 
 function initTimeline() {
@@ -891,6 +1075,9 @@ $(document).ready(function() {
         loadSkinsForCompare();
         initRandomForSkin1();
         initRandomForSkin2();
+        initDeselectButtons();
+        initAsciiAnimation();
+        updateHistoryDisplay();
         updateCompareFavoritesList();
     } else if (currentPage.includes('maps.html')) {
         console.log('Página: Línea del tiempo de mapas');
@@ -906,4 +1093,5 @@ $(document).ready(function() {
     window.toggleFavorite = toggleFavorite;
     window.selectFavoriteForCompare = selectFavoriteForCompare;
     window.showSkinModal = showSkinModal;
+    window.reloadComparison = reloadComparison;
 });
