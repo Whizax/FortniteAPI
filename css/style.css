@@ -1,7 +1,3 @@
-/* 
-   Colores principales de la web
-   Los he sacado del estilo neón de Fortnite
-*/
 :root {
   --bg-primary: #0a0c10;
   --bg-secondary: #0f1117;
@@ -16,22 +12,116 @@
   --neon-glow: 0 0 20px rgba(0, 243, 255, 0.4);
   --glass-bg: rgba(255, 255, 255, 0.05);
   --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* TIPOGRAFÍAS */
+  --font-burbank: 'Barlow Condensed', 'Impact', 'Arial Narrow', sans-serif;
+  --font-body: 'Inter', 'Segoe UI', sans-serif;
 }
 
 /* Reseteo básico */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  font-family: 'Inter', 'Segoe UI', sans-serif;
+  font-family: var(--font-body);
   background-color: var(--bg-primary);
   color: var(--text-primary);
   overflow-x: hidden;
   transition: var(--transition);
 }
 
-/* Tipos de letra para los títulos */
-h1, h2, h3, .navbar-brand, .btn {
-  font-family: 'Orbitron', monospace;
+/* ==================== TIPOGRAFÍA ESTILO BURBANK SÓLO PARA TÍTULOS ==================== */
+h1, h2, h3, h4, h5, h6,
+.navbar-brand,
+.section-title,
+.glitch-text,
+.stat-number,
+.countdown-box span:first-child,
+.timeline-title,
+.news-title,
+.card-title,
+.modal-title {
+  font-family: var(--font-burbank);
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Ajustes específicos para cada tipo de título */
+h1, .glitch-text {
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+h2, .section-title {
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+h3 {
+  font-weight: 700;
+}
+
+h4, h5, h6 {
+  font-weight: 600;
+}
+
+/* Números de estadísticas con estilo Burbank */
+.stat-number {
+  font-size: 3.5rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+/* Contador del evento */
+.countdown-box span:first-child {
+  font-size: 2.5rem;
+  font-weight: 900;
+}
+
+/* Logo de la marca */
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+/* Títulos de noticias */
+.news-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+/* Títulos de tarjetas */
+.card-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+/* ==================== RESTO DE TIPOGRAFÍA (CUERPO) ==================== */
+p, span, li, a, .nav-link, .btn, .stat-label, 
+.news-description, .timeline-desc, .timeline-tag,
+.tips-text, .footer, .rarity-badge, .filter-btn {
+  font-family: var(--font-body);
+}
+
+/* Botones con estilo mixto */
+.btn {
+  font-family: var(--font-body);
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* Badges y etiquetas */
+.rarity-badge, .badge-neon, .timeline-year {
+  font-family: var(--font-body);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* Efecto neon solo para textos especiales */
+.text-neon {
+  color: var(--neon-cyan);
+  text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
 }
 
 /* ==================== BARRA DE NAVEGACIÓN ==================== */
@@ -43,13 +133,20 @@ h1, h2, h3, .navbar-brand, .btn {
   border-bottom: 1px solid var(--border-color);
   z-index: 1000;
 }
-.navbar-brand { font-size: 1.5rem; font-weight: 800; color: var(--text-primary) !important; }
+.navbar-brand { 
+  font-family: var(--font-burbank);
+  font-size: 1.5rem; 
+  font-weight: 800; 
+  color: var(--text-primary) !important; 
+}
 .navbar-nav .nav-link {
+  font-family: var(--font-body);
   color: var(--text-primary) !important;
-  font-weight: 500;
+  font-weight: 600;
   margin: 0 0.5rem;
   transition: var(--transition);
   position: relative;
+  letter-spacing: 0.5px;
 }
 /* Linea que aparece al pasar el ratón */
 .navbar-nav .nav-link::after {
@@ -108,11 +205,10 @@ body.light-mode .btn-theme-toggle:hover {
 /* Flechita que baja */
 .scroll-indicator { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 10; animation: bounce 2s infinite; color: var(--neon-cyan); font-size: 1.5rem; }
 @keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(10px); } }
-.badge-neon { display: inline-block; background: rgba(0, 243, 255, 0.15); border: 1px solid var(--neon-cyan); padding: 8px 24px; border-radius: 40px; font-size: 0.8rem; letter-spacing: 2px; backdrop-filter: blur(5px); }
+.badge-neon { display: inline-block; background: rgba(0, 243, 255, 0.15); border: 1px solid var(--neon-cyan); padding: 8px 24px; border-radius: 40px; font-size: 0.8rem; letter-spacing: 2px; backdrop-filter: blur(5px); font-family: var(--font-body); font-weight: 600; }
 /* Efecto de fallo (glitch) para el título */
 .glitch-text { animation: glitch 3s infinite; }
 @keyframes glitch { 0%, 100% { text-shadow: 3px 0 0 rgba(255,0,0,0.5), -3px 0 0 rgba(0,255,255,0.5); } 50% { text-shadow: -3px 0 0 rgba(255,0,0,0.5), 3px 0 0 rgba(0,255,255,0.5); } }
-.text-neon { color: var(--neon-cyan); text-shadow: 0 0 10px rgba(0, 243, 255, 0.5); }
 
 /* ==================== BOTONES ==================== */
 .btn-primary-custom { background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)); border: none; border-radius: 50px; font-weight: 700; padding: 14px 36px; transition: var(--transition); color: white; letter-spacing: 1px; }
@@ -156,19 +252,53 @@ body.light-mode .btn-compare:hover {
 
 /* ==================== ESTADÍSTICAS ==================== */
 .stats-section { padding: 100px 0; }
-.section-title { font-size: 2.8rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-primary); position: relative; display: inline-block; }
+.section-title { 
+  font-size: 2.8rem; 
+  font-weight: 800; 
+  margin-bottom: 1rem; 
+  color: var(--text-primary); 
+  position: relative; 
+  display: inline-block; 
+  font-family: var(--font-burbank);
+}
 /* Linea decorativa debajo del título */
 .section-title::after { content: ''; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); width: 80px; height: 3px; background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple)); border-radius: 3px; }
 .stat-card { background: var(--bg-card); border-radius: 20px; border: 1px solid var(--border-color); backdrop-filter: blur(10px); transition: var(--transition); }
 .stat-card:hover { border-color: var(--neon-cyan); box-shadow: var(--neon-glow); transform: translateY(-8px); }
-.stat-number { font-size: 3.5rem; font-weight: 800; color: var(--neon-cyan); font-family: 'Orbitron', monospace; }
-.stat-label { color: var(--text-secondary); letter-spacing: 2px; font-size: 0.8rem; text-transform: uppercase; }
+.stat-number { 
+  font-size: 3.5rem; 
+  font-weight: 900; 
+  color: var(--neon-cyan); 
+  font-family: var(--font-burbank);
+  letter-spacing: 3px;
+}
+.stat-label { 
+  color: var(--text-secondary); 
+  letter-spacing: 2px; 
+  font-size: 0.8rem; 
+  text-transform: uppercase;
+  font-family: var(--font-body);
+  font-weight: 600;
+}
 
 /* ==================== CONTADOR DEL EVENTO ==================== */
 .countdown-section { padding: 100px 0; background: var(--bg-secondary); }
 .countdown-box { background: var(--bg-card); border-radius: 20px; padding: 20px 30px; min-width: 120px; text-align: center; border: 1px solid var(--neon-cyan); transition: var(--transition); }
 .countdown-box:hover { transform: translateY(-5px); box-shadow: var(--neon-glow); }
-.countdown-box span:first-child { font-size: 2.5rem; font-weight: 800; font-family: 'Orbitron', monospace; color: var(--neon-cyan); display: block; }
+.countdown-box span:first-child { 
+  font-size: 2.5rem; 
+  font-weight: 900; 
+  font-family: var(--font-burbank); 
+  color: var(--neon-cyan); 
+  display: block;
+  letter-spacing: 2px;
+}
+.countdown-box span:last-child {
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 1px;
+  font-size: 0.8rem;
+}
 
 /* ==================== NOTICIAS ==================== */
 .news-section { padding: 100px 0; }
@@ -178,8 +308,20 @@ body.light-mode .btn-compare:hover {
 .news-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
 .news-card:hover .news-image img { transform: scale(1.05); }
 .news-body { padding: 1.5rem; }
-.news-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--text-primary); font-family: 'Orbitron', monospace; }
-.news-description { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; }
+.news-title { 
+  font-size: 1.2rem; 
+  font-weight: 700; 
+  margin-bottom: 0.75rem; 
+  color: var(--text-primary); 
+  font-family: var(--font-burbank);
+  letter-spacing: 0.5px;
+}
+.news-description { 
+  color: var(--text-secondary); 
+  font-size: 0.9rem; 
+  line-height: 1.5;
+  font-family: var(--font-body);
+}
 .news-footer { display: flex; justify-content: space-between; margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--border-color); }
 .news-read-more { color: var(--neon-cyan); text-decoration: none; transition: var(--transition); }
 
@@ -200,10 +342,26 @@ body.light-mode .btn-compare:hover {
 .cosmetic-card:hover { transform: translateY(-5px); border-color: var(--neon-cyan); box-shadow: var(--neon-glow); }
 .cosmetic-card img { width: 100%; height: 260px; object-fit: cover; }
 .card-body { padding: 1rem; text-align: center; }
-.card-title { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary); }
+.card-title { 
+  font-size: 0.9rem; 
+  font-weight: 700; 
+  margin-bottom: 0.5rem; 
+  color: var(--text-primary);
+  font-family: var(--font-burbank);
+  letter-spacing: 0.5px;
+}
 
 /* ==================== INSIGNIAS DE RAREZA ==================== */
-.rarity-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+.rarity-badge { 
+  display: inline-block; 
+  padding: 4px 12px; 
+  border-radius: 20px; 
+  font-size: 0.7rem; 
+  font-weight: 700; 
+  text-transform: uppercase;
+  font-family: var(--font-body);
+  letter-spacing: 0.5px;
+}
 .rarity-common { background: #2e2e2e; color: #fff; }
 .rarity-uncommon { background: #2a6e2a; color: #fff; }
 .rarity-rare { background: #2a6e8f; color: #fff; }
@@ -262,6 +420,8 @@ body.light-mode .btn-compare:hover {
     font-size: 0.8rem;
     transition: var(--transition);
     cursor: pointer;
+    font-family: var(--font-body);
+    font-weight: 600;
 }
 
 .filter-btn:hover {
@@ -290,6 +450,9 @@ body.light-mode .btn-compare:hover {
 /* ==================== PIE DE PÁGINA ==================== */
 .footer { background: var(--bg-secondary); border-top: 1px solid var(--border-color); padding: 2rem 0; }
 .footer a { color: var(--neon-cyan); text-decoration: none; }
+.footer p, .footer .small {
+  font-family: var(--font-body);
+}
 
 /* ==================== BOTÓN PARA VOLVER ARRIBA ==================== */
 .btn-back-to-top { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; border-radius: 50%; background: var(--neon-cyan); color: var(--bg-primary); border: none; cursor: pointer; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 1000; font-size: 1.5rem; }
@@ -299,6 +462,11 @@ body.light-mode .btn-compare:hover {
 /* ==================== VENTANAS MODALES ==================== */
 .modal-content.bg-dark { background: var(--bg-secondary) !important; border: 1px solid var(--neon-cyan); }
 .border-neon { border-color: var(--neon-cyan) !important; }
+.modal-title {
+  font-family: var(--font-burbank);
+  font-weight: 700;
+  letter-spacing: 1px;
+}
 
 /* Arregla un problema: el modal no debe mover la página */
 .modal-open { overflow: auto !important; padding-right: 0 !important; }
@@ -498,12 +666,16 @@ body.light-mode .cosmetic-card h5 {
     color: var(--text-primary);
     line-height: 1.4;
     font-weight: 500;
+    font-family: var(--font-body);
 }
 
 /* ==================== EFECTO DE MÁQUINA DE ESCRIBIR ==================== */
 #typed-title {
     min-height: 120px;
-    font-family: 'Orbitron', monospace;
+    font-family: var(--font-burbank);
+    font-weight: 900;  
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .cursor {
@@ -849,6 +1021,7 @@ body.light-mode .cosmetic-card h5 {
     font-size: 1rem;
     font-weight: 800;
     margin-bottom: 0.3rem;
+    font-family: var(--font-burbank);
 }
 
 .timeline-tag {
@@ -921,7 +1094,6 @@ body.light-mode .cosmetic-card h5 {
     }
 }
 
-/* Botón de favorito estilo círculo (como en la tienda) */
 .favorite-btn-circle {
   position: absolute;
   bottom: 10px;
@@ -1058,4 +1230,158 @@ body.light-mode .cosmetic-card h5 {
     0% { transform: scale(1); }
     50% { transform: scale(1.3); }
     100% { transform: scale(1); }
+}
+/* ==================== ANIMACIÓN DE CONTADORES AL SCROLL ==================== */
+
+/* Efecto de pulso durante la animación */
+.counter-animating {
+    animation: counterPulse 0.5s ease-out;
+    display: inline-block;
+}
+
+@keyframes counterPulse {
+    0% {
+        transform: scale(1);
+        text-shadow: 0 0 0px var(--neon-cyan);
+    }
+    50% {
+        transform: scale(1.08);
+        text-shadow: 0 0 20px var(--neon-cyan);
+    }
+    100% {
+        transform: scale(1);
+        text-shadow: 0 0 5px var(--neon-cyan);
+    }
+}
+
+/* Placeholder animado mientras carga */
+.stat-number:contains('---') {
+    opacity: 0.6;
+    animation: loadingPulse 1.5s infinite;
+}
+
+@keyframes loadingPulse {
+    0%, 100% { opacity: 0.4; text-shadow: none; }
+    50% { opacity: 0.9; text-shadow: 0 0 5px var(--neon-cyan); }
+}
+
+/* Efecto de brillo al finalizar la animación */
+@keyframes finalGlow {
+    0% {
+        text-shadow: 0 0 5px var(--neon-cyan);
+        transform: scale(1);
+    }
+    100% {
+        text-shadow: 0 0 25px var(--neon-cyan);
+        transform: scale(1.05);
+    }
+}
+
+.stat-number.flash {
+    animation: finalGlow 0.3s ease-out;
+}
+/* ==================== MEJORAS PARA EL BUSCADOR DEL COMPARADOR ==================== */
+
+/* Input de búsqueda */
+.input-group .form-control {
+    background: var(--glass-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: 50px 0 0 50px;
+    padding: 10px 15px;
+    transition: var(--transition);
+}
+
+.input-group .form-control:focus {
+    background: var(--bg-card);
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 15px var(--neon-cyan);
+    outline: none;
+    color: var(--text-primary);
+}
+
+.input-group .form-control::placeholder {
+    color: var(--text-muted);
+}
+
+/* Botones de ordenación en el input group */
+.input-group .btn-outline-custom {
+    border-radius: 0;
+    border-left: none;
+}
+
+.input-group .btn-outline-custom:first-of-type {
+    border-radius: 0;
+}
+
+.input-group .btn-outline-custom:last-child {
+    border-radius: 0 50px 50px 0;
+}
+
+.input-group .btn-outline-custom:hover {
+    background: var(--neon-cyan);
+    color: var(--bg-primary);
+    border-color: var(--neon-cyan);
+}
+
+/* Select con estilo mejorado */
+.form-select {
+    background: var(--glass-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: 50px;
+    padding: 10px 15px;
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.form-select:hover {
+    border-color: var(--neon-cyan);
+}
+
+.form-select:focus {
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 15px var(--neon-cyan);
+    outline: none;
+}
+
+/* Opciones del select */
+.form-select option {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    padding: 10px;
+}
+
+/* Animación de feedback al filtrar */
+@keyframes filterFeedback {
+    0% { border-color: var(--border-color); }
+    50% { border-color: var(--neon-cyan); box-shadow: 0 0 10px var(--neon-cyan); }
+    100% { border-color: var(--border-color); }
+}
+
+.form-select.filter-active {
+    animation: filterFeedback 0.5s ease;
+}
+
+/* Modo claro para los inputs */
+body.light-mode .input-group .form-control,
+body.light-mode .form-select {
+    background: white;
+    color: var(--text-primary);
+    border-color: #ddd;
+}
+
+body.light-mode .input-group .form-control:focus,
+body.light-mode .form-select:focus {
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 10px rgba(0, 119, 182, 0.3);
+}
+
+body.light-mode .input-group .form-control::placeholder {
+    color: #999;
+}
+
+body.light-mode .form-select option {
+    background: white;
+    color: #333;
 }
