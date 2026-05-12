@@ -1963,3 +1963,140 @@ body.light-mode .form-select option {
   background: rgba(220, 53, 69, 0.2);
   color: #dc3545;
 }
+/* ==================== GALERÍA DE BANNERS ==================== */
+.banners-gallery {
+  min-height: 60vh;
+}
+
+.banner-card {
+  background: var(--bg-card);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  position: relative;
+  height: 100%;
+}
+
+.banner-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 25px rgba(0, 243, 255, 0.3);
+}
+
+.banner-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.banner-card:hover .banner-img {
+  transform: scale(1.05);
+}
+
+.banner-info {
+  padding: 12px;
+  text-align: center;
+}
+
+.banner-name {
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.banner-category {
+  font-size: 0.65rem;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: rgba(0, 243, 255, 0.1);
+  color: var(--neon-cyan);
+  display: inline-block;
+}
+
+/* Filtros de banners */
+.banner-filters {
+  position: relative;
+  z-index: 5;
+}
+
+.banner-filter-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 40px;
+  padding: 8px 24px;
+  color: var(--text-primary);
+  font-weight: 600;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.banner-filter-btn:hover {
+  background: rgba(0, 243, 255, 0.1);
+  border-color: var(--neon-cyan);
+}
+
+.banner-filter-btn.active {
+  background: var(--neon-cyan);
+  color: var(--bg-primary);
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 15px var(--neon-cyan);
+}
+
+/* Responsive banners */
+@media (max-width: 768px) {
+  .banner-img {
+    height: 140px;
+  }
+  
+  .banner-filter-btn {
+    padding: 6px 16px;
+    font-size: 0.8rem;
+  }
+}
+/* ==================== VANILLA TILT (efecto 3D) ==================== */
+.tilt-effect {
+    transition: transform 0.2s ease-out;
+    transform-style: preserve-3d;
+}
+
+/* Tooltips personalizados */
+.tippy-box {
+    background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+    color: var(--bg-primary);
+    font-weight: bold;
+    font-size: 0.8rem;
+    border-radius: 12px;
+    box-shadow: 0 0 15px var(--neon-cyan);
+}
+
+.tippy-content {
+    padding: 8px 16px;
+}
+
+/* Partículas (fondo) */
+#particles-js {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+/* Efecto hover adicional */
+.tilt-card {
+    transition: all 0.3s ease;
+}
+
+.tilt-card:hover {
+    box-shadow: 0 0 30px var(--neon-cyan);
+}

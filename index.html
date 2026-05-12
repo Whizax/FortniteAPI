@@ -14,9 +14,20 @@
   <!-- <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">-->
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <!-- Vanilla Tilt (efecto 3D en tarjetas) -->
+<script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.0/dist/vanilla-tilt.min.js"></script>
+
+<!-- Partículas de fondo -->
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+<!-- Tippy.js (tooltips animados) -->
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://unpkg.com/tippy.js@6"></script>
+<link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css" />
 </head>
 <body>
-
+<!-- Contenedor para partículas de fondo -->
+<div id="particles-js"></div>
   <div class="scroll-progress"></div>
 
   <!-- NAVBAR SOLO CON PÁGINAS HTML -->
@@ -32,6 +43,7 @@
           <li class="nav-item"><a class="nav-link" href="shop.html">TIENDA</a></li>
           <li class="nav-item"><a class="nav-link" href="compare.html">COMPARADOR</a></li>
           <li class="nav-item"><a class="nav-link" href="maps.html">MAPAS</a></li>
+          <li class="nav-item"><a class="nav-link" href="banners.html">BANNERS</a></li>
           <li class="nav-item"><button id="themeToggle" class="btn btn-theme-toggle ms-lg-3"><i class="bi bi-moon-stars-fill"></i></button></li>
         </ul>
       </div>
@@ -193,5 +205,26 @@
   <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
   <script src="js/app.js"></script>
   <script> AOS.init({ duration: 800, once: true, offset: 100 }); </script>
+  <script>
+    particlesJS("particles-js", {
+        particles: {
+            number: { value: 80, density: { enable: true, value_area: 800 } },
+            color: { value: "#00f3ff" },
+            shape: { type: "circle" },
+            opacity: { value: 0.3, random: true },
+            size: { value: 3, random: true },
+            line_linked: { enable: true, distance: 150, color: "#00f3ff", opacity: 0.1, width: 1 },
+            move: { enable: true, speed: 2, direction: "none", random: true, straight: false, out_mode: "out" }
+        },
+        interactivity: {
+            detect_on: "canvas",
+            events: {
+                onhover: { enable: true, mode: "repulse" },
+                onclick: { enable: true, mode: "push" }
+            }
+        },
+        retina_detect: true
+    });
+</script>
 </body>
 </html>
