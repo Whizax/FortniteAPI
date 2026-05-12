@@ -10,14 +10,37 @@
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   
-  <!-- CSS externo -->
+  <!-- AOS (Animate on Scroll) -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
   <div class="scroll-progress"></div>
+
+  <!-- FONDO DECORATIVO -->
+  <div class="maps-background">
+    <div class="grid-overlay"></div>
+    <div class="storm-rings">
+      <div class="storm-ring ring-1"></div>
+      <div class="storm-ring ring-2"></div>
+      <div class="storm-ring ring-3"></div>
+    </div>
+    <div class="floating-markers">
+      <div class="marker" style="top: 10%; left: 15%;">📍</div>
+      <div class="marker" style="top: 25%; left: 80%;">📍</div>
+      <div class="marker" style="top: 40%; left: 45%;">📍</div>
+      <div class="marker" style="top: 60%; left: 70%;">📍</div>
+      <div class="marker" style="top: 75%; left: 20%;">📍</div>
+      <div class="marker" style="top: 85%; left: 55%;">📍</div>
+      <div class="marker" style="top: 15%; left: 50%;">📍</div>
+      <div class="marker" style="top: 50%; left: 10%;">📍</div>
+    </div>
+    <div class="compass-overlay"><i class="bi bi-compass"></i></div>
+  </div>
 
   <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
     <div class="container">
@@ -38,34 +61,71 @@
   </nav>
 
   <header class="page-header mt-5">
-    <div class="container text-center py-4">
+    <div class="container text-center py-4" data-aos="fade-up">
       <h1 class="display-4 fw-bold"><i class="bi bi-map-fill text-neon"></i> LÍNEA DEL TIEMPO</h1>
       <p class="lead">La evolución de la isla a través de los capítulos</p>
     </div>
   </header>
 
-  <div class="timeline" id="timelineContainer">
-    <!-- Aquí se cargarán los mapas -->
+  <!-- ==================== MINIJUEGO "¿DÓNDE ESTÁ LA UBICACIÓN?" ==================== -->
+  <div class="quiz-section mb-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-10 mx-auto">
+          <div class="quiz-card p-4" data-aos="flip-up">
+            <div class="quiz-header text-center">
+              <i class="bi bi-question-circle-fill quiz-icon"></i>
+              <h3 class="text-neon">¿DÓNDE ESTÁ LA UBICACIÓN?</h3>
+              <p class="text-white-50">Adivina en qué capítulo apareció este punto de interés</p>
+            </div>
+            <div class="quiz-body text-center">
+              <div class="quiz-question">
+                <h4 id="quizQuestion" class="mb-3">Cargando pregunta...</h4>
+                <div class="quiz-options" id="quizOptions"></div>
+              </div>
+              <div id="quizResult" class="quiz-result mt-3"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <!-- LÍNEA DEL TIEMPO -->
+  <div class="timeline" id="timelineContainer"></div>
 
   <footer class="footer mt-5">
     <div class="container text-center">
       <p class="small">&copy; 2025 - <span id="currentYear"></span> Fortnite Hub. Proyecto académico para Diseño Web Avanzado - UDIT.</p>
+      <p class="small text-white-50">Explora la historia de la isla de Fortnite a través de los años</p>
     </div>
   </footer>
 
   <button id="backToTop" class="btn-back-to-top"><i class="bi bi-arrow-up-short"></i></button>
 
+  <!-- MODAL PARA MAPAS CON VÍDEO -->
   <div class="modal fade" id="mapModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
       <div class="modal-content bg-dark text-white">
         <div class="modal-header border-neon">
           <h5 class="modal-title text-neon" id="mapModalTitle"></h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
-        <div class="modal-body text-center">
-          <img id="mapModalImg" src="" alt="" class="img-fluid rounded" style="max-height: 60vh;">
-          <p id="mapModalDesc" class="mt-3"></p>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <img id="mapModalImg" src="" alt="" class="img-fluid rounded w-100" style="max-height: 300px; object-fit: contain;">
+            </div>
+            <div class="col-md-6">
+              <div class="ratio ratio-16x9">
+                <iframe id="mapModalVideo" src="" title="Trailer" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+            </div>
+          </div>
+          <p id="mapModalDesc" class="mt-3 text-center"></p>
+          <div class="modal-map-info text-center mt-2">
+            <small class="text-white-50"><i class="bi bi-pin-map"></i> Mapa histórico de Fortnite | <i class="bi bi-film"></i> Tráiler de la temporada</small>
+          </div>
         </div>
         <div class="modal-footer border-neon">
           <button class="btn btn-outline-custom" data-bs-dismiss="modal">Cerrar</button>
@@ -76,6 +136,8 @@
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script src="js/app.js"></script>
+  <script> AOS.init({ duration: 800, once: true, offset: 100 }); </script>
 </body>
 </html>

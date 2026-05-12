@@ -1,9 +1,3 @@
-/*
-    JavaScript principal de Fortnite Hub
-    Hecho para la asignatura de Diseño Web Avanzado
-    Controla la API, favoritos, comparador, sonidos...
-*/
-
 // --------------------------------------------------------------
 // VARIABLES GLOBALES
 // --------------------------------------------------------------
@@ -763,15 +757,12 @@ function showNewsModal(title, body, imageUrl) {
 }
 
 // --------------------------------------------------------------
-// PÁGINA DE INICIO
+// ESTADÍSTICAS DE LA LANDING
 // --------------------------------------------------------------
-
-
 let statsAnimated = false;
 let targetStats = { skins: 0, emotes: 0, total: 0 };
 
 function loadStats() {
-  
     $('#skinsCount, #emotesCount, #totalCount').text('---');
     
     $.ajax({
@@ -790,11 +781,8 @@ function loadStats() {
                 targetStats.total = allItems.length;
                 
                 console.log(`Estadísticas cargadas: ${targetStats.skins} skins, ${targetStats.emotes} emotes, ${targetStats.total} items`);
-                
-            
                 checkAndAnimateStats();
             } else {
-              
                 targetStats.skins = 1247;
                 targetStats.emotes = 856;
                 targetStats.total = 3420;
@@ -802,7 +790,6 @@ function loadStats() {
             }
         },
         error: function() {
-          
             targetStats.skins = 1247;
             targetStats.emotes = 856;
             targetStats.total = 3420;
@@ -811,21 +798,17 @@ function loadStats() {
     });
 }
 
-
 function isStatsSectionVisible() {
     const statsSection = document.getElementById('stats');
     if (!statsSection) return false;
     
     const rect = statsSection.getBoundingClientRect();
     const windowHeight = window.innerHeight || document.documentElement.clientHeight;
-    
-
     const threshold = 0.3;
     const elementVisible = rect.top < windowHeight - (windowHeight * (1 - threshold)) && rect.bottom > 0;
     
     return elementVisible;
 }
-
 
 function animateSingleNumber(element, target, duration = 2000) {
     if (!element || !target) return;
@@ -836,19 +819,15 @@ function animateSingleNumber(element, target, duration = 2000) {
     const updateNumber = (currentTime) => {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        
-        
         const easeOut = 1 - Math.pow(1 - progress, 3);
         const currentValue = Math.floor(start + (target - start) * easeOut);
         
-       
         element.textContent = currentValue.toLocaleString('es-ES');
         
         if (progress < 1) {
             requestAnimationFrame(updateNumber);
         } else {
             element.textContent = target.toLocaleString('es-ES');
-          
             element.style.transform = 'scale(1.05)';
             setTimeout(() => {
                 if (element) element.style.transform = '';
@@ -859,7 +838,6 @@ function animateSingleNumber(element, target, duration = 2000) {
     requestAnimationFrame(updateNumber);
 }
 
-// Función para animar todos los contadores
 function animateAllCounters() {
     if (statsAnimated) return;
     statsAnimated = true;
@@ -868,15 +846,12 @@ function animateAllCounters() {
     const emotesElement = document.getElementById('emotesCount');
     const totalElement = document.getElementById('totalCount');
     
-
     $('.stat-number').addClass('counter-animating');
     
-    // Animar cada contador
     animateSingleNumber(skinsElement, targetStats.skins, 2000);
     animateSingleNumber(emotesElement, targetStats.emotes, 2000);
     animateSingleNumber(totalElement, targetStats.total, 2000);
     
-   
     setTimeout(() => {
         $('.stat-number').removeClass('counter-animating');
     }, 2100);
@@ -884,9 +859,7 @@ function animateAllCounters() {
     console.log('Animación de contadores iniciada');
 }
 
-
 function checkAndAnimateStats() {
-  
     if (statsAnimated) return;
     if (targetStats.skins === 0 && targetStats.emotes === 0 && targetStats.total === 0) return;
     
@@ -895,14 +868,15 @@ function checkAndAnimateStats() {
     }
 }
 
-
 $(window).on('scroll', function() {
     checkAndAnimateStats();
 });
 
-
 setTimeout(checkAndAnimateStats, 500);
 
+// --------------------------------------------------------------
+// NOTICIAS
+// --------------------------------------------------------------
 const loadingMessages = ["Saltando del autobús...", "Recargando armas...", "Construyendo rampas...", "Abriendo un cofre...", "Tomando escudo de Slurp...", "Buscando loot...", "Preparando victoria...", "Conectando con la isla...", "Invocando grieta..."];
 function getRandomLoadingMessage() { return loadingMessages[Math.floor(Math.random() * loadingMessages.length)]; }
 
@@ -1137,18 +1111,18 @@ function setCurrentYear() { $('#currentYear').text(new Date().getFullYear()); }
 // TRUCOS Y CONSEJOS
 // --------------------------------------------------------------
 const fortniteTips = [
-    "Apunta a la cabeza: el daño crítico es mucho mayor.",
-    "Construye siempre rampas para tener ventaja sobre tus enemigos.",
-    "Los cofres siempre están en los mismos lugares, ¡aprende sus spawns!",
-    "Escucha los pasos: el sonido es clave para saber dónde están.",
-    "El escudo de Slurp se regenera con el tiempo.",
-    "La pistola de hielo congela a los enemigos y los ralentiza.",
-    "Comunícate con tu equipo, es la clave del éxito.",
-    "Los eventos en vivo dan recompensas exclusivas.",
-    "Usa auriculares para escuchar los pasos de los enemigos.",
-    "El humo de las granadas puede cubrir tu escape.",
-    "Si sales del autobús tarde, llegarás más lejos.",
-    "Las mejoras de armas se encuentran en cofres de alto nivel."
+    "💥 Apunta a la cabeza: el daño crítico es mucho mayor.",
+    "🏗️ Construye siempre rampas para tener ventaja sobre tus enemigos.",
+    "🎁 Los cofres siempre están en los mismos lugares, ¡aprende sus spawns!",
+    "🏃‍♂️ Escucha los pasos: el sonido es clave para saber dónde están.",
+    "🧠 El escudo de Slurp se regenera con el tiempo.",
+    "🔫 La pistola de hielo congela a los enemigos y los ralentiza.",
+    "👥 Comunícate con tu equipo, es la clave del éxito.",
+    "📅 Los eventos en vivo dan recompensas exclusivas.",
+    "🔊 Usa auriculares para escuchar los pasos de los enemigos.",
+    "💨 El humo de las granadas puede cubrir tu escape.",
+    "🪂 Si sales del autobús tarde, llegarás más lejos.",
+    "🎯 Las mejoras de armas se encuentran en cofres de alto nivel."
 ];
 
 function showRandomTip() { $('#currentTip').text(fortniteTips[Math.floor(Math.random() * fortniteTips.length)]); }
@@ -1223,14 +1197,112 @@ function initTimeline() {
     document.querySelectorAll('.timeline-item').forEach(item => observer.observe(item));
 }
 
+// --------------------------------------------------------------
+// FUNCIONES DE MAPAS (QUIZ, NAVEGACIÓN, MODAL)
+// --------------------------------------------------------------
+
+// Variables para el quiz
+let currentQuizIndex = 0;
+let quizAnswered = false;
+
+// Preguntas del quiz
+const quizQuestions = [
+    { poi: "Parque Placentero", correctChapter: 0, options: ["Capítulo 1", "Capítulo 2", "Capítulo 3"] },
+    { poi: "La Agencia", correctChapter: 1, options: ["Capítulo 1", "Capítulo 2", "Capítulo 3"] },
+    { poi: "Daily Bugle", correctChapter: 2, options: ["Capítulo 2", "Capítulo 3", "Capítulo 4"] },
+    { poi: "Ciudad MEGA", correctChapter: 3, options: ["Capítulo 3", "Capítulo 4", "Capítulo 5"] },
+    { poi: "Monte Olimpo", correctChapter: 4, options: ["Capítulo 4", "Capítulo 5", "Capítulo 6"] },
+    { poi: "Dojo Demoníaco", correctChapter: 5, options: ["Capítulo 5", "Capítulo 6", "Capítulo 4"] }
+];
+
+// Vídeos por capítulo para el modal (ACTUALIZADOS)
+const chapterVideos = {
+    'CAPÍTULO 1': 'WJW-bzXZM8M',
+    'CAPÍTULO 2': 'i6lR2s-0EU0',
+    'CAPÍTULO 3': '0BI6wPEJSDo',
+    'CAPÍTULO 4': 'JW-KIbV9PRU',
+    'CAPÍTULO 5': '1XcgbOAkRIQ',
+    'CAPÍTULO 6': 'LrfzND9Dgq8'
+};
+
 function abrirModalMapa(titulo, descripcion, imagen) {
     try {
         if (typeof playSound === 'function') playSound('select');
+        
+        const videoId = chapterVideos[titulo] || 'kgbIecfhjlg';
+        
         document.getElementById('mapModalTitle').innerText = titulo;
         document.getElementById('mapModalImg').src = imagen;
-        document.getElementById('mapModalDesc').innerText = descripcion;
-        new bootstrap.Modal(document.getElementById('mapModal')).show();
-    } catch(e) { alert(titulo + '\n\n' + descripcion); }
+        document.getElementById('mapModalVideo').src = `https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0`;
+        document.getElementById('mapModalDesc').innerHTML = descripcion;
+        
+        const modalElement = document.getElementById('mapModal');
+        modalElement.addEventListener('hidden.bs.modal', function() {
+            document.getElementById('mapModalVideo').src = '';
+        }, { once: true });
+        
+        new bootstrap.Modal(modalElement).show();
+    } catch(e) { 
+        alert(titulo + '\n\n' + descripcion); 
+    }
+}
+
+function loadQuizQuestion() {
+    if (currentQuizIndex >= quizQuestions.length) {
+        currentQuizIndex = 0;
+    }
+    const q = quizQuestions[currentQuizIndex];
+    $('#quizQuestion').text(`¿En qué capítulo apareció "${q.poi}"?`);
+    
+    let optionsHtml = '';
+    q.options.forEach(opt => {
+        const isCorrect = (opt === `Capítulo ${q.correctChapter + 1}`);
+        optionsHtml += `<div class="quiz-option" data-correct="${isCorrect}" data-chapter-name="${opt}">${opt}</div>`;
+    });
+    $('#quizOptions').html(optionsHtml);
+    $('#quizResult').html('').removeClass('correct-result wrong-result');
+    quizAnswered = false;
+    
+    $('.quiz-option').off('click').on('click', function() {
+        if (quizAnswered) return;
+        
+        const isCorrect = $(this).data('correct') === true;
+        const selectedChapter = $(this).data('chapter-name');
+        const correctChapter = `Capítulo ${quizQuestions[currentQuizIndex].correctChapter + 1}`;
+        
+        quizAnswered = true;
+        
+        if (isCorrect) {
+            $(this).addClass('correct');
+            $('#quizResult').html(`✅ ¡Correcto! ${quizQuestions[currentQuizIndex].poi} apareció en el ${selectedChapter}`).addClass('correct-result');
+            playSound('like');
+            if (typeof showToast === 'function') showToast('🎉 Respuesta correcta', quizQuestions[currentQuizIndex].poi + ' es del ' + correctChapter, 'select');
+        } else {
+            $(this).addClass('wrong');
+            $('#quizResult').html(`❌ Incorrecto. ${quizQuestions[currentQuizIndex].poi} apareció en el ${correctChapter}`).addClass('wrong-result');
+            playSound('click');
+            $('.quiz-option').each(function() {
+                if ($(this).data('correct') === true) {
+                    $(this).addClass('correct');
+                }
+            });
+        }
+        
+        $('.quiz-option').addClass('disabled');
+        
+        setTimeout(() => {
+            currentQuizIndex++;
+            loadQuizQuestion();
+        }, 2500);
+    });
+}
+
+function initMapsPage() {
+    loadQuizQuestion();
+    
+    $(document).on('mouseenter', '.timeline-card', function() {
+        if (typeof playHover === 'function') playHover();
+    });
 }
 
 window.abrirModalMapa = abrirModalMapa;
@@ -1278,6 +1350,7 @@ $(document).ready(function() {
     } else if (currentPage.includes('maps.html')) {
         console.log('Página: Línea del tiempo de mapas');
         initTimeline();
+        initMapsPage();
     } else {
         console.log('Página: Inicio');
         loadStats();
