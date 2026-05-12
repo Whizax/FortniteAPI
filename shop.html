@@ -15,146 +15,127 @@
 </head>
 <body>
 
-  <div class="scroll-progress"></div>
+<div class="scroll-progress"></div>
 
-  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-    <div class="container">
-      <a class="navbar-brand fw-bold fs-3" href="index.html"><i class="bi bi-controller"></i> FORTNITE<span class="text-neon">HUB</span></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link" href="index.html">INICIO</a></li>
-          <li class="nav-item"><a class="nav-link active" href="shop.html">TIENDA</a></li>
-          <li class="nav-item"><a class="nav-link" href="compare.html">COMPARADOR</a></li>
-          <li class="nav-item"><a class="nav-link" href="maps.html">MAPAS</a></li>
-          <li class="nav-item"><a class="nav-link active" href="banners.html">BANNERS</a></li>
-          <li class="nav-item"><button id="themeToggle" class="btn btn-theme-toggle ms-lg-3"><i class="bi bi-moon-stars-fill"></i></button></li>
-        </ul>
-      </div>
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold fs-3" href="index.html"><i class="bi bi-controller"></i> FORTNITE<span class="text-neon">HUB</span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="index.html">INICIO</a></li>
+        <li class="nav-item"><a class="nav-link active" href="shop.html">TIENDA</a></li>
+        <li class="nav-item"><a class="nav-link" href="compare.html">COMPARADOR</a></li>
+        <li class="nav-item"><a class="nav-link" href="maps.html">MAPAS</a></li>
+        <li class="nav-item"><a class="nav-link" href="banners.html">BANNERS</a></li>
+        <li class="nav-item"><button id="themeToggle" class="btn btn-theme-toggle ms-lg-3"><i class="bi bi-moon-stars-fill"></i></button></li>
+      </ul>
     </div>
-  </nav>
+  </div>
+</nav>
 
-  <header class="page-header py-5 mt-5">
-    <div class="container text-center py-4">
-      <h1 class="display-4 fw-bold"><i class="bi bi-grid-3x3-gap-fill text-neon"></i> TIENDA DE COSMÉTICOS</h1>
-      <p class="lead">Descubre todos los objetos de la tienda actual de Fortnite</p>
+<header class="page-header py-5 mt-5">
+  <div class="container text-center py-4">
+    <h1 class="display-4 fw-bold"><i class="bi bi-grid-3x3-gap-fill text-neon"></i> TIENDA DE COSMÉTICOS</h1>
+    <p class="lead">Descubre todos los objetos de la tienda actual de Fortnite</p>
+  </div>
+</header>
+
+<div class="container py-4">
+  <div class="filters-panel mb-5">
+    <div class="d-flex justify-content-center gap-3 mb-4 flex-wrap">
+      <button class="btn btn-filter-toggle active" data-filter-group="rarity"><i class="bi bi-gem"></i> RAREZA</button>
+      <button class="btn btn-filter-toggle" data-filter-group="type"><i class="bi bi-grid-3x3-gap-fill"></i> TIPO</button>
     </div>
-  </header>
 
-  <div class="container py-4">
-    <div class="filters-panel mb-5">
-      <div class="d-flex justify-content-center gap-3 mb-4 flex-wrap">
-        <button class="btn btn-filter-toggle active" data-filter-group="rarity"><i class="bi bi-gem"></i> RAREZA</button>
-        <button class="btn btn-filter-toggle" data-filter-group="type"><i class="bi bi-grid-3x3-gap-fill"></i> TIPO</button>
-      </div>
-
-      <div id="filter-rarity" class="filter-group show">
-        <div class="filter-buttons rarity-buttons">
-          <button class="filter-btn active" data-filter="*">TODOS</button>
-          <button class="filter-btn" data-filter=".legendary">🔶 LEGENDARIO</button>
-          <button class="filter-btn" data-filter=".epic">🟣 ÉPICO</button>
-          <button class="filter-btn" data-filter=".rare">🔵 RARO</button>
-          <button class="filter-btn" data-filter=".uncommon">🟢 POCO COMÚN</button>
-          <button class="filter-btn" data-filter=".common">⚪ COMÚN</button>
-        </div>
-      </div>
-
-      <div id="filter-type" class="filter-group" style="display: none;">
-        <div class="filter-buttons type-buttons">
-          <button class="filter-btn active" data-type="*">TODOS</button>
-          <button class="filter-btn" data-type="outfit">🎭 SKINS</button>
-          <button class="filter-btn" data-type="emote">💃 EMOTES</button>
-          <button class="filter-btn" data-type="backpack">🎒 MOCHILAS</button>
-          <button class="filter-btn" data-type="pickaxe">⛏️ PICOS</button>
-          <button class="filter-btn" data-type="glider">🪂 ALAS</button>
-          <button class="filter-btn" data-type="wrap">🎨 ENVOLTURAS</button>
-        </div>
+    <div id="filter-rarity" class="filter-group show">
+      <div class="filter-buttons rarity-buttons">
+        <button class="filter-btn active" data-filter="*">TODOS</button>
+        <button class="filter-btn" data-filter=".legendary">🔶 LEGENDARIO</button>
+        <button class="filter-btn" data-filter=".epic">🟣 ÉPICO</button>
+        <button class="filter-btn" data-filter=".rare">🔵 RARO</button>
+        <button class="filter-btn" data-filter=".uncommon">🟢 POCO COMÚN</button>
+        <button class="filter-btn" data-filter=".common">⚪ COMÚN</button>
       </div>
     </div>
 
-    <div class="row justify-content-center mb-5">
-      <div class="col-md-6 col-lg-4">
-        <div class="search-bar p-2 rounded-4">
-          <div class="input-group">
-            <input type="text" id="searchInput" class="form-control" placeholder="Buscar por nombre...">
-            <button id="searchBtn" class="btn btn-neon"><i class="bi bi-search"></i></button>
-          </div>
-        </div>
+    <div id="filter-type" class="filter-group" style="display: none;">
+      <div class="filter-buttons type-buttons">
+        <button class="filter-btn active" data-type="*">TODOS</button>
+        <button class="filter-btn" data-type="outfit">🎭 SKINS</button>
+        <button class="filter-btn" data-type="emote">💃 EMOTES</button>
+        <button class="filter-btn" data-type="backpack">🎒 MOCHILAS</button>
+        <button class="filter-btn" data-type="pickaxe">⛏️ PICOS</button>
+        <button class="filter-btn" data-type="glider">🪂 ALAS</button>
+        <button class="filter-btn" data-type="wrap">🎨 ENVOLTURAS</button>
       </div>
     </div>
-
-    <div id="resultsCount" class="text-center mb-3"><span class="badge bg-neon">Cargando cosméticos...</span></div>
-    <div id="cosmeticsContainer" class="row g-4"><div class="col-12 text-center"><div class="spinner-border text-neon" role="status"><span class="visually-hidden">Cargando cosméticos...</span></div></div></div>
   </div>
 
-  <!-- ===== SECCIÓN MODELO 3D - LLAMA DE FORTNITE ===== -->
-  <section id="model3d" class="model3d-section py-5">
-    <div class="container">
-      <div class="row text-center mb-5">
-        <div class="col-12" data-aos="fade-up">
-          <h2 class="section-title">MODELO 3D <span class="text-neon">INTERACTIVO</span></h2>
-          <p class="text-white-50">Explora la Llama de Fortnite en 3D - Gírala, acércate, ¡interactúa!</p>
-        </div>
-      </div>
-      <div class="row justify-content-center">
-        <div class="col-lg-10" data-aos="zoom-in">
-          <div class="model3d-container">
-            <iframe 
-              title="Fortnite Llama 3D" 
-              frameborder="0" 
-              allowfullscreen 
-              mozallowfullscreen="true" 
-              webkitallowfullscreen="true" 
-              allow="autoplay; fullscreen; xr-spatial-tracking" 
-              xr-spatial-tracking="true" 
-              execution-while-out-of-viewport="true" 
-              execution-while-not-rendered="true" 
-              src="https://sketchfab.com/models/844bafe85de3441fbc65a8c24fa5a5fd/embed">
-            </iframe>
-          </div>
-          <div class="model-info text-center mt-3">
-            <p class="small text-white-50">
-              <i class="bi bi-mouse"></i> Haz clic y arrastra para rotar | 
-              <i class="bi bi-arrows-fullscreen"></i> Usa la rueda del ratón para acercar/alejar
-            </p>
-            <p class="small text-white-50 mt-2">
-              Modelo por <a href="https://sketchfab.com/CarlosSR22" target="_blank" class="text-neon">Carlos_SR22</a> en Sketchfab
-            </p>
-          </div>
+  <div class="row justify-content-center mb-5">
+    <div class="col-md-6 col-lg-4">
+      <div class="search-bar p-2 rounded-4">
+        <div class="input-group">
+          <input type="text" id="searchInput" class="form-control" placeholder="Buscar por nombre...">
+          <button id="searchBtn" class="btn btn-neon"><i class="bi bi-search"></i></button>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- ===== FOOTER COMPLETO (con redes sociales) ===== -->
-  <footer class="footer pt-5 pb-4 mt-5">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6 text-center text-md-start">
-          <p class="small mb-0">&copy; 2025 - <span id="currentYear"></span> Fortnite Hub. Proyecto académico para Diseño Web Avanzado - UDIT.</p>
+  <div id="resultsCount" class="text-center mb-3"><span class="badge bg-neon">Cargando cosméticos...</span></div>
+  <div id="cosmeticsContainer" class="row g-4"><div class="col-12 text-center"><div class="spinner-border text-neon" role="status"><span class="visually-hidden">Cargando cosméticos...</span></div></div></div>
+</div>
+
+<section id="model3d" class="model3d-section py-5">
+  <div class="container">
+    <div class="row text-center mb-5"><div class="col-12" data-aos="fade-up"><h2 class="section-title">MODELO 3D <span class="text-neon">INTERACTIVO</span></h2><p class="text-white-50">Explora la Llama de Fortnite en 3D - Gírala, acércate, ¡interactúa!</p></div></div>
+    <div class="row justify-content-center">
+      <div class="col-lg-10" data-aos="zoom-in">
+        <div class="model3d-container">
+          <iframe title="Fortnite Llama 3D" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking="true" execution-while-out-of-viewport="true" execution-while-not-rendered="true" src="https://sketchfab.com/models/844bafe85de3441fbc65a8c24fa5a5fd/embed"></iframe>
         </div>
-        <div class="col-md-6 text-center text-md-end">
-          <a href="https://x.com/Fortnite_ES" target="_blank" class="me-3"><i class="bi bi-twitter-x"></i></a>
-          <a href="https://www.instagram.com/fortnite/" target="_blank" class="me-3"><i class="bi bi-instagram"></i></a>
-          <a href="https://www.youtube.com/@PlayStation" target="_blank" class="me-3"><i class="bi bi-youtube"></i></a>
-          <a href="https://www.tiktok.com/@fortnite?lang=es" target="_blank"><i class="bi bi-tiktok"></i></a>
-        </div>
-      </div>
-      <div class="row mt-3">
-        <div class="col-12 text-center">
-          <p class="small text-white-50">Datos proporcionados por <a href="https://dash.fortnite-api.com/" target="_blank">Fortnite-API.com</a></p>
+        <div class="model-info text-center mt-3">
+          <p class="small text-white-50"><i class="bi bi-mouse"></i> Haz clic y arrastra para rotar | <i class="bi bi-arrows-fullscreen"></i> Usa la rueda del ratón para acercar/alejar</p>
+          <p class="small text-white-50 mt-2">Modelo por <a href="https://sketchfab.com/CarlosSR22" target="_blank" class="text-neon">Carlos_SR22</a> en Sketchfab</p>
         </div>
       </div>
     </div>
-  </footer>
+  </div>
+</section>
 
-  <button id="backToTop" class="btn-back-to-top"><i class="bi bi-arrow-up-short"></i></button>
+<footer class="footer pt-5 pb-4 mt-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 text-center text-md-start"><p class="small mb-0">&copy; 2025 - <span id="currentYear"></span> Fortnite Hub. Proyecto académico para Diseño Web Avanzado - UDIT.</p></div>
+      <div class="col-md-6 text-center text-md-end">
+        <a href="https://x.com/Fortnite_ES" target="_blank" class="me-3"><i class="bi bi-twitter-x"></i></a>
+        <a href="https://www.instagram.com/fortnite/" target="_blank" class="me-3"><i class="bi bi-instagram"></i></a>
+        <a href="https://www.youtube.com/@PlayStation" target="_blank" class="me-3"><i class="bi bi-youtube"></i></a>
+        <a href="https://www.tiktok.com/@fortnite?lang=es" target="_blank"><i class="bi bi-tiktok"></i></a>
+      </div>
+    </div>
+    <div class="row mt-3"><div class="col-12 text-center"><p class="small text-white-50">Datos proporcionados por <a href="https://dash.fortnite-api.com/" target="_blank">Fortnite-API.com</a></p></div></div>
+  </div>
+</footer>
 
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
-  <script src="js/app.js"></script>
+<button id="backToTop" class="btn-back-to-top"><i class="bi bi-arrow-up-short"></i></button>
+
+<div class="modal fade" id="bannerModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content bg-dark text-white">
+      <div class="modal-header border-neon"><h5 class="modal-title text-neon" id="bannerModalTitle"></h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body text-center"><img id="bannerModalImg" src="" alt="" class="img-fluid rounded" style="max-height: 60vh;"><div class="mt-3"><span id="bannerModalCategory" class="banner-category"></span></div><p class="mt-2 text-white-50">Banner oficial de Fortnite</p></div>
+      <div class="modal-footer border-neon"><button class="btn btn-outline-custom" data-bs-dismiss="modal">Cerrar</button></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>

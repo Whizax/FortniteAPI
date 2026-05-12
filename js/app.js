@@ -489,16 +489,14 @@ function initAsciiAnimation() {
 }
 
 // --------------------------------------------------------------
-// ESTADÍSTICAS DE LA LANDING (CORREGIDAS)
+// ESTADÍSTICAS DE LA LANDING
 // --------------------------------------------------------------
 
 function loadStats() {
     $('#skinsCount, #emotesCount, #totalCount').text('---');
     
-    // Datos reales aproximados de Fortnite (valores de respaldo)
     statsData = { skins: 1847, emotes: 1256, total: 8420 };
     
-    // Intentar obtener datos reales de la API
     $.ajax({
         url: API_URL,
         method: 'GET',
@@ -940,14 +938,48 @@ function toggleTheme() {
 
 function initTiltEffects() {
     if (typeof VanillaTilt !== 'undefined') {
-        VanillaTilt.init(document.querySelectorAll(".cosmetic-card, .news-card, .stat-card, .slider-card, .banner-card"), { max: 8, speed: 400, glare: true, "max-glare": 0.3, scale: 1.02, easing: "cubic-bezier(.03,.98,.52,.99)" });
-        VanillaTilt.init(document.querySelectorAll(".timeline-card"), { max: 6, speed: 300, glare: true, "max-glare": 0.2 });
+        // Destruir instancias existentes para evitar conflictos
+        const existingTilt = document.querySelectorAll('[data-tilt]');
+        existingTilt.forEach(el => {
+            if (el.vanillaTilt) el.vanillaTilt.destroy();
+        });
+        
+        // Inicializar todas las tarjetas
+        const elements = document.querySelectorAll(
+            ".cosmetic-card, .news-card, .stat-card, .slider-card, .banner-card, " +
+            ".selector-card, .detail-card, .info-card, .history-card, " +
+            ".quiz-card, .tips-card, .timeline-card, .favorite-item"
+        );
+        
+        elements.forEach(el => {
+            VanillaTilt.init(el, { 
+                max: 12,
+                speed: 400,
+                glare: true,
+                "max-glare": 0.3,
+                scale: 1.02,
+                perspective: 1000,
+                easing: "cubic-bezier(.03,.98,.52,.99)",
+                transition: true
+            });
+        });
+        
+        // Inicializar botones de filtro (sin glare)
+        const filterBtns = document.querySelectorAll(".filter-btn, .banner-filter-btn, .btn-filter-toggle, .nav-chapter-btn");
+        filterBtns.forEach(el => {
+            VanillaTilt.init(el, { 
+                max: 5, 
+                speed: 300, 
+                glare: false, 
+                scale: 1.03,
+                perspective: 500
+            });
+        });
     }
 }
 
 function initTooltips() {
     if (typeof tippy !== 'undefined') {
-        tippy('#randomSkinBtn', { content: '🎲 ¡Obtén una skin aleatoria!', animation: 'scale', placement: 'bottom' });
         tippy('#newTipBtn', { content: '💡 Cambia el consejo de Fortnite', animation: 'scale', placement: 'bottom' });
         tippy('#backToTop', { content: '⬆️ Volver arriba', animation: 'scale', placement: 'left' });
         tippy('#themeToggle', { content: '🌙 Cambiar tema claro/oscuro', animation: 'scale', placement: 'bottom' });
@@ -958,7 +990,6 @@ function initTooltips() {
 
 function initMicroInteractions() {
     $('.btn, .favorite-btn, .nav-chapter-btn, .banner-filter-btn').on('click', function() { $(this).addClass('btn-pulse'); setTimeout(() => $(this).removeClass('btn-pulse'), 200); });
-    $('.cosmetic-card, .news-card, .stat-card').on('mouseenter', function() { $(this).css('transition', 'all 0.2s ease'); });
 }
 
 // --------------------------------------------------------------
@@ -1012,10 +1043,8 @@ $(document).ready(function() {
         }
     });
     
-    // Sonido hover
     $('body').on('mouseenter', '.btn, .cosmetic-card, .news-card, .stat-card, .slider-card, .favorite-btn, .filter-btn, .btn-filter-toggle, .favorite-item', function() { playHover(); });
     
-    // DETECCIÓN DE PÁGINA
     const currentPage = window.location.pathname;
     
     if (currentPage.includes('shop.html')) {
@@ -1046,11 +1075,26 @@ $(document).ready(function() {
         loadTrending();
     }
     
-    // Efectos visuales (se ejecutan después de cargar el contenido)
+    // Inicializar efectos después de cargar el contenido
     setTimeout(() => {
         initTiltEffects();
         initTooltips();
         initMicroInteractions();
+        
+        // También aplicar tilt a los modales cuando se abren
+        $(document).on('shown.bs.modal', '.modal', function() {
+            const modalContent = $(this).find('.modal-content');
+            if (modalContent.length && typeof VanillaTilt !== 'undefined') {
+                VanillaTilt.init(modalContent[0], { 
+                    max: 8, 
+                    speed: 400, 
+                    glare: true, 
+                    "max-glare": 0.3, 
+                    scale: 1.02,
+                    perspective: 1000
+                });
+            }
+        });
     }, 500);
     
     window.toggleFavorite = toggleFavorite;

@@ -2100,3 +2100,129 @@ body.light-mode .form-select option {
 .tilt-card:hover {
     box-shadow: 0 0 30px var(--neon-cyan);
 }
+/* ==================== MEJORAS DE EFECTO 3D PARA MODALES ==================== */
+
+/* Asegurar que los modales tengan perspectiva 3D */
+.modal-content {
+    transform-style: preserve-3d;
+    transition: transform 0.2s ease-out;
+    will-change: transform;
+}
+
+/* Mejorar el brillo (glare) en modales */
+.modal-content[data-tilt-glare] .js-tilt-glare {
+    border-radius: 12px;
+    pointer-events: none;
+}
+
+/* Efecto hover adicional para modales */
+.modal-content:hover {
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 30px rgba(0, 243, 255, 0.3);
+}
+
+/* Efecto 3D para tarjetas del comparador */
+.selector-card, .detail-card, .info-card, .history-card {
+    transform-style: preserve-3d;
+    transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+}
+
+.selector-card:hover, .detail-card:hover, .info-card:hover, .history-card:hover {
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 25px rgba(0, 243, 255, 0.3);
+}
+
+/* Efecto 3D para el quiz card */
+.quiz-card {
+    transform-style: preserve-3d;
+    transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+}
+
+.quiz-card:hover {
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 25px rgba(0, 243, 255, 0.3);
+}
+
+/* Efecto 3D para la tarjeta de tips */
+.tips-card {
+    transform-style: preserve-3d;
+    transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+}
+
+/* Efecto 3D para items de favoritos en comparador */
+.favorite-item {
+    transform-style: preserve-3d;
+    transition: all 0.2s ease;
+}
+
+/* Asegurar que el efecto tilt no rompa el layout */
+[data-tilt] {
+    will-change: transform;
+}
+
+/* Evitar conflictos con animaciones de AOS */
+[data-aos] {
+    transform: translateZ(0);
+}
+/* ==================== EFECTO 3D COMPLETO PARA MODALES Y TARJETAS ==================== */
+
+/* Configuración base para que funcione el tilt */
+.tilt-effect, 
+.cosmetic-card, 
+.news-card, 
+.stat-card, 
+.slider-card, 
+.banner-card,
+.selector-card, 
+.detail-card, 
+.info-card, 
+.history-card,
+.quiz-card, 
+.tips-card, 
+.timeline-card,
+.favorite-item,
+.modal-content {
+    transform-style: preserve-3d !important;
+    transform: perspective(1000px) !important;
+    transition: transform 0.1s ease-out !important;
+}
+
+/* Forzar que Vanilla Tilt funcione correctamente */
+[data-tilt] {
+    transform-style: preserve-3d !important;
+    will-change: transform !important;
+}
+
+[data-tilt] .js-tilt-glare {
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+/* Mejorar el efecto hover para todos */
+.cosmetic-card:hover, 
+.news-card:hover, 
+.stat-card:hover, 
+.slider-card:hover, 
+.banner-card:hover,
+.selector-card:hover, 
+.detail-card:hover, 
+.info-card:hover, 
+.history-card:hover,
+.quiz-card:hover, 
+.tips-card:hover, 
+.timeline-card:hover,
+.modal-content:hover {
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 30px rgba(0, 243, 255, 0.3);
+}
+
+/* Asegurar que los modales tengan perspectiva 3D */
+.modal-content {
+    transform-style: preserve-3d !important;
+    transition: transform 0.2s ease-out;
+}
+
+/* Evitar conflictos con AOS */
+[data-aos] {
+    transform: translateZ(0);
+}
